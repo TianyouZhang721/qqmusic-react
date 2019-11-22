@@ -19,7 +19,6 @@ body,
 }
 img {
   width: 100%;
-  height: 100%;
 }
 .container {
   display: flex;
@@ -51,4 +50,65 @@ img {
 .container .main .recommend .banner .slick-slider,
 .container .main .recommend .banner .slick-list {
   height: 100%;
+}
+.container .main .recommend .radio {
+  padding: 0 10px;
+  background-color: #f7f5f5;
+}
+.container .main .recommend .radio .radiolist {
+  display: flex;
+  justify-content: space-between;
+}
+.container .main .recommend .radio .radiolist .radio-one {
+  width: 48%;
+}
+.container .main .rank {
+  padding: 10px;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+.container .main .rank li {
+  display: flex;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+.container .main .rank li img {
+  width: 120px;
+  height: 120px;
+}
+.container .main .rank li .list-item {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+  padding-left: 6px;
+}
+.container .main .rank li .list-item .song-title {
+  flex: 1;
+  overflow: hidden;
+}
+.container .main .rank li .list-item .song-title > p {
+  font-size: 20px;
+  color: #000;
+  margin-bottom: 6px;
+}
+.container .main .rank li .list-item .song-title span {
+  color: #666;
+  font-size: 14px;
+  margin-right: 6px;
+}
+.container .main .rank li .list-item .song-title span.title {
+  color: #000;
+  font-size: 18px;
+}
+.container .main .rank li .list-item .song-title .song-p {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin: 0;
+}
+.container .main .rank li .list-item .icon-div {
+  width: 40px;
+  text-align: center;
+  line-height: 120px;
 }

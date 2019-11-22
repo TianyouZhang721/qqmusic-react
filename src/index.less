@@ -16,7 +16,6 @@ html,body,#root,.container {
 }
 img {
     width: 100%;
-    height: 100%;
 }
 .container {
     display: flex;
@@ -44,6 +43,67 @@ img {
                 height: 150px;
                 .ant-carousel, .slick-slider, .slick-list{
                     height: 100%;
+                }
+            }
+            .radio {
+                padding: 0 10px;
+                background-color: #f7f5f5;
+                .radiolist {
+                    display: flex;
+                    justify-content: space-between;
+                    .radio-one {
+                        width: 48%;
+                    }
+                }
+            }
+        }
+        .rank {
+            padding: 10px;
+            background-color: #f4f4f4;
+            overflow: hidden;
+            li {
+                display: flex;
+                background-color: #fff;
+                margin-bottom: 10px;
+                img {
+                    width: 120px;
+                    height: 120px;
+                }
+                .list-item {
+                    flex: 1;
+                    display: flex;
+                    overflow: hidden;
+                    padding-left: 6px;
+                    .song-title {
+                        flex: 1;
+                        overflow: hidden;
+                        >p {
+                            font-size: 20px;
+                            color: #000;
+                            margin-bottom: 6px;
+                        }
+                        span {
+                            color: #666;
+                            font-size: 14px;
+                            margin-right: 6px;
+                            &.title {
+                                color: #000;
+                                font-size: 18px;
+                            }
+                        }
+                        .song-p {
+                            width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            margin: 0;
+                        }
+                    }
+                    .icon-div {
+                        width: 40px;
+                        text-align: center;
+                        line-height: 120px;
+                    }
                 }
             }
         }

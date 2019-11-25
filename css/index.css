@@ -112,6 +112,43 @@ img {
   text-align: center;
   line-height: 120px;
 }
+.container .main .search .search-box {
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #ccc;
+  margin-bottom: 20px;
+}
+.container .main .search .search-box span {
+  margin-left: 10px;
+}
+.container .main .search .hot {
+  display: flex;
+  flex-wrap: wrap;
+}
+.container .main .search .hot span {
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  line-height: 40px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+.container .main .search .masks {
+  position: fixed;
+  width: 280px;
+  top: 92px;
+  left: 30px;
+}
+.container .main .search .masks li {
+  width: 100%;
+  padding: 20px;
+  background-color: #fff;
+}
+.container .main .search .masks li .anticon-search {
+  font-size: 20px;
+  margin-right: 20px;
+}
 .topList {
   overflow: hidden;
 }

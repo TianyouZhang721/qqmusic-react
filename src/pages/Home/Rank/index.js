@@ -17,10 +17,19 @@ export default class Rank extends Component {
             })
         })
     }
+    go(item) {
+        console.log(item)
+        this.props.history.push({
+            pathname: '/toplist',
+            state: {
+                id: item.id
+            }
+        })
+    }
     render() {
         const list = this.state.list.map((item, index) => {
             return (
-                <li key={index}>
+                <li key={index} onClick={this.go.bind(this, item)}>
                     <img src={item.picUrl} alt="" />
                     <div className="list-item">
                         <div className="song-title">

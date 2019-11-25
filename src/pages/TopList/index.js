@@ -12,7 +12,7 @@ export default class TopList extends Component {
             time: "",
             el: "",
             pullup:"上拉加载",
-            end: 20
+            end: 20,
         }
         this.renderList = this.renderList.bind(this)
     }
@@ -36,7 +36,8 @@ export default class TopList extends Component {
                 // 3. el高度固定，overflow:hidden
                 // 4. son的高度必须大于el的高度
                 let bs = new BScroll('.topList', {
-                    probeType: 2
+                    probeType: 2,
+                    click: true
                 })
                 bs.on('scroll', () => {
                     // console.log(bs.y) // 当前滚动的距离
@@ -60,10 +61,19 @@ export default class TopList extends Component {
             // this.setState({},() => {})
         })
     }
+    play(mid, songid) {
+        this.props.history.push({
+            pathname: "/play",
+            state: {
+                mid,
+                songid
+            }
+        })
+    }
     renderList(start, end) {
         const el = this.state.list.slice(start,end).map((item, index) => {
             return (
-                <li key={index}>
+                <li key={index} onClick={this.play.bind(this, item.songMid, item.songId)}>
                     <span>{index + 1}</span>
                     <div>
                         <p>{item.songName}</p>
@@ -93,7 +103,7 @@ export default class TopList extends Component {
     render() {
         return (
             <div className="container topList">
-                <div className="box">
+                <div className="box" ref="box" >
                     <div className="top-info">
                         <p>{this.state.topInfo.listName}</p>
                         <p>{this.state.topInfo.listName}</p>

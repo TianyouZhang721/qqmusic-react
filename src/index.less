@@ -150,3 +150,38 @@ img {
         }
     }
 }
+.play {
+    .lyric-box {
+        height: 500px;
+        text-align: center;
+        overflow: hidden;
+        position: relative;
+        .box {
+            position: absolute;
+            top: 150px;
+            width: 100%;
+            text-align: center;
+            p {
+                color: #000;
+                &.active {
+                    color: green;
+                }
+            }
+        }
+    }
+    .btns {
+        width: 100%;
+        padding: 0 100px;
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+        span {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 40px;
+        }
+    }
+}

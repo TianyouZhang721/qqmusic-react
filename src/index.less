@@ -208,6 +208,34 @@ img {
             }
         }
     }
+    .progress-bar {
+        display: flex;
+        align-items: center;
+        span {
+            width: 50px;
+            text-align: center;
+        }
+        .progress-box {
+            flex: 1;
+            height: 10px;
+            background-color: #ccc;
+            position: relative;
+            .progress-truth {
+                width: 10px;
+                background-color: green;
+                height: 10px;
+            }
+            .circle {
+                position: absolute;
+                width: 16px;
+                height: 16px;
+                border-radius: 8px;
+                background-color: green;
+                left: -3px;
+                top: -3px;
+            }
+        }
+    }
     .btns {
         width: 100%;
         padding: 0 100px;

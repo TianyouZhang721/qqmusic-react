@@ -10,7 +10,10 @@ export default class Plays extends Component {
             el: "",
             lyricArr: [],
             i: "",
-            time: 0
+            time: 0,
+            duration: "",
+            currentTime: "",
+            left: ""
         }
         this.getLyric = this.getLyric.bind(this)
         this.getUrl = this.getUrl.bind(this)
@@ -21,16 +24,45 @@ export default class Plays extends Component {
         this.getUrl();
         this.getLyric()
     }
+    // 将秒转成00:00
+    format(second) {
+        // 225
+        second = parseInt(second)
+        var mintute = Math.floor(second / 60) >= 10 ? Math.floor(second / 60) : "0" + Math.floor(second / 60)
+        var sec = second % 60 >= 10     ?       second % 60      :      '0' + second % 60
+        return mintute + ":" + sec
+    }
     getUrl() {
         const mid = this.props.location.state.mid;
-        console.log(mid)
         this.$http.get(play, {params: {
             mid
         }}).then(res => {
-            console.log(res)
             this.setState({
                 url: res.data,
             })
+            const audio = this.refs.audio;
+            // audio.duration 返回总时长，数值，单位为秒
+            // audio.oncanplaythrough = () => {} 代表当前音乐缓存完成，才能获取时长
+            audio.oncanplaythrough = () => {
+                const duration = audio.duration;
+                this.setState({
+                    duration: this.format(duration)
+                })
+            }
+            // audio.currentTime  返回当前播放时间，数值，单位为秒
+            // audio.ontimeupdate = () => {}    当前音乐时间发生变化，也就是播放状态
+            audio.ontimeupdate = () => {
+                const currentTime = audio.currentTime
+                this.setState({
+                    currentTime: this.format(currentTime)
+                })
+                // currentTime / duration = w / box的宽度
+                const boxWidth = this.refs.progressBox.clientWidth;
+                const scale = currentTime / audio.duration
+                const width = boxWidth * scale
+                this.refs.truth.style.width = width + 'px'
+                this.refs.circle.style.left = width - 3 + 'px'
+            }
         })
     }
     getLyric() {
@@ -40,13 +72,11 @@ export default class Plays extends Component {
                 songid
             }
         }).then(res => {
-            console.log(res)
             this.setState({
                 lyric: res.data.data.lyric
             })
             let lyric = res.data.data.lyric;
             let lyricArr = lyric.split("[换行]").slice(5);
-            console.log(lyricArr)
             let arr = []
             lyricArr.forEach((item, index) => {
                 let lstr = item.split(']')[1];
@@ -67,7 +97,6 @@ export default class Plays extends Component {
                 }
                 arr.push(obj)
             })
-            console.log(arr)
             this.setState({
                 lyricArr: arr
             }, () => {
@@ -84,13 +113,11 @@ export default class Plays extends Component {
         })
     }
     interval() {
-        console.log(111)
         var t = this.state.time // 单位为秒
         this.timer = setInterval(() => {
             
             this.state.lyricArr.forEach((item, index) => {
                 if (t == item.ltime) {
-                    console.log(index)
                     this.setState({
                         i: index
                     },() => {
@@ -123,6 +150,33 @@ export default class Plays extends Component {
         clearInterval(this.timer)
             this.timer = null;
     }
+    move(e) {
+        console.log(e.touches[0])
+        this.refs.audio.pause()
+        let left = e.touches[0].pageX - 50;
+        if (left < 0) {
+            left = 0
+        }
+        if (left > this.refs.progressBox.clientWidth) {
+            left = this.refs.progressBox.clientWidth
+        }
+        this.refs.circle.style.left = left - 3 + 'px';
+        this.refs.truth.style.width = left + 'px';
+        this.setState({
+            left
+        })
+        // 让小球的left跟着手的位置进行移动
+    }
+    touchend() {
+        this.refs.audio.play()
+        let scale = this.state.left / this.refs.progressBox.clientWidth;
+        let currentTime = this.refs.audio.duration * scale;
+        console.log(currentTime)
+        this.refs.audio.currentTime = currentTime
+        this.setState({
+            currentTime: this.format(currentTime)
+        })
+    }
     render() {
         return (
             <div className="container play">
@@ -130,6 +184,16 @@ export default class Plays extends Component {
                     <div className="box" ref="box">
                         {this.state.el}
                     </div>
+                </div>
+                <div className="progress-bar">
+                    <span>{this.state.currentTime}</span>
+                    <div className="progress-box" ref="progressBox">
+                        <div className="progress-truth" ref="truth"></div>
+                        {/* mousedown mousemove mouseup */}
+                        {/* touchstart touchmove touchend */}
+                        <div className="circle" ref="circle" onTouchMove={this.move.bind(this)} onTouchEnd={this.touchend.bind(this)}></div>
+                    </div>
+                    <span>{this.state.duration}</span>
                 </div>
                 <div className="btns">
                     <audio src={this.state.url} ref="audio"></audio>

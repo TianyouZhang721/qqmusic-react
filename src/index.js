@@ -11,6 +11,8 @@ import './index.less'
 import MapRoute from './routes/MapRoute'
 import routes from './routes/routes'
 import axios from 'axios'
+// import initReactFastclick from 'react-fastclick';
+// initReactFastclick();
 Component.prototype.$http = axios
 ReactDOM.render((
     <Router>

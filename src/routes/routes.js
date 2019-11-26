@@ -1,5 +1,6 @@
 import Home from "../pages/Home";
 import TopList from "../pages/TopList";
+import Login from "../pages/Login";
 import Plays from "../pages/Play";
 import Recommend from '../pages/Home/Recommend'
 import Rank from '../pages/Home/Rank'
@@ -15,6 +16,10 @@ const routes = [
         component: Plays
     },
     {
+        path:"/login",
+        component: Login
+    },
+    {
         path: "/",
         component: Home,
         children: [
@@ -28,7 +33,8 @@ const routes = [
             },
             {
                 path: "/home/search",
-                component: Searchs
+                component: Searchs,
+                auth: true
             },
             {
                 from: "/",

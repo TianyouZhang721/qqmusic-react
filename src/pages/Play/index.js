@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Icon } from 'antd'
-import {play, lyric} from '../../common/API'
+import { play, lyric } from '../../common/API'
 export default class Plays extends Component {
     constructor(props) {
         super(props)
@@ -29,14 +29,16 @@ export default class Plays extends Component {
         // 225
         second = parseInt(second)
         var mintute = Math.floor(second / 60) >= 10 ? Math.floor(second / 60) : "0" + Math.floor(second / 60)
-        var sec = second % 60 >= 10     ?       second % 60      :      '0' + second % 60
+        var sec = second % 60 >= 10 ? second % 60 : '0' + second % 60
         return mintute + ":" + sec
     }
     getUrl() {
         const mid = this.props.location.state.mid;
-        this.$http.get(play, {params: {
-            mid
-        }}).then(res => {
+        this.$http.get(play, {
+            params: {
+                mid
+            }
+        }).then(res => {
             this.setState({
                 url: res.data,
             })
@@ -89,7 +91,7 @@ export default class Plays extends Component {
                     // if (arr[0] !== "00") {
                     //     m = arr[0] * 60
                     // }
-                    return arr[0]*60 + parseInt(arr[1])
+                    return arr[0] * 60 + parseInt(arr[1])
                 }
                 let obj = {
                     lstr,
@@ -113,17 +115,18 @@ export default class Plays extends Component {
         })
     }
     interval() {
-        var t = this.state.time // 单位为秒
+        console.log(1)
+        var t = this.state.time // 单位为秒  0
         this.timer = setInterval(() => {
-            
+
             this.state.lyricArr.forEach((item, index) => {
                 if (t == item.ltime) {
                     this.setState({
                         i: index
-                    },() => {
+                    }, () => {
                         this.renderLyric()
                         const box = this.refs.box;
-                        box.style.top = - index * 35 + 150 +  'px'
+                        box.style.top = - index * 35 + 150 + 'px'
                     })
                 }
             })
@@ -148,7 +151,7 @@ export default class Plays extends Component {
     }
     componentWillUnmount() {
         clearInterval(this.timer)
-            this.timer = null;
+        this.timer = null;
     }
     move(e) {
         console.log(e.touches[0])
@@ -176,6 +179,22 @@ export default class Plays extends Component {
         this.setState({
             currentTime: this.format(currentTime)
         })
+        // 拿到新的i
+        console.log(this.state.lyricArr)
+        let i = this.state.lyricArr.findIndex(item => {
+            return item.ltime > currentTime
+        })
+        this.setState({
+            i,
+            time: this.state.lyricArr[i].ltime
+        }, () => {
+            this.renderLyric()
+            const box = this.refs.box;
+            box.style.top = - i * 35 + 150 + 'px'
+            clearInterval(this.timer)
+            this.timer = null;
+            this.interval()
+        })
     }
     render() {
         return (
@@ -199,7 +218,7 @@ export default class Plays extends Component {
                     <audio src={this.state.url} ref="audio"></audio>
                     <span>MV</span>
                     <span>
-                        <Icon type="caret-right" onClick={this.play.bind(this)}/>
+                        <Icon type="caret-right" onClick={this.play.bind(this)} />
                     </span>
                     <span>
                         <Icon type="heart" />
